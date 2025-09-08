@@ -1,0 +1,28 @@
+<?php
+// Get data from fetch()
+$data = json_decode(file_get_contents("php://input"), true);
+
+$name    = $data["name"];
+$email   = $data["email"];
+$score   = $data["score"];
+$total   = $data["total"];
+$answers = implode(",", $data["answers"]);
+$date    = date("Y-m-d H:i:s");
+
+$file = "results.csv";
+
+// If file does not exist, add header first
+if (!file_exists($file)) {
+    $header = ["Date", "Name", "Email", "Score", "Total", "Answers"];
+    $fp = fopen($file, "w");
+    fputcsv($fp, $header);
+    fclose($fp);
+}
+
+// Append student row
+$fp = fopen($file, "a");
+fputcsv($fp, [$date, $name, $email, $score, $total, $answers]);
+fclose($fp);
+
+echo "✅ Result saved successfully in results.csv";
+?>
