@@ -29,6 +29,11 @@
       font-size: 1.5rem;
     }
 
+    .question-number {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
     .question-img {
       max-width: 100%;
       height: auto;
@@ -51,7 +56,6 @@
       text-align: center;
       transition: background 0.2s;
       font-size: 1rem;
-      word-wrap: break-word;
     }
 
     .options input {
@@ -64,8 +68,8 @@
     }
 
     button {
-      display: block;
-      margin: 20px auto;
+      display: inline-block;
+      margin: 15px 5px;
       padding: 12px 24px;
       background: #1565c0;
       color: white;
@@ -90,17 +94,14 @@
       font-size: 1rem;
     }
 
-    /* Responsive adjustments */
     @media screen and (max-width: 480px) {
       .options {
-        grid-template-columns: 1fr; /* stack options vertically */
+        grid-template-columns: 1fr;
       }
-
       .options label {
         font-size: 0.9rem;
         padding: 10px;
       }
-
       h1 {
         font-size: 1.3rem;
       }
@@ -129,19 +130,20 @@
     </div>
 
     <form id="quiz-form" class="hidden">
-      <div id="timer">
-        Time Left: <span id="time">30:00</span>
-      </div>
+      <div id="timer">Time Left: <span id="time">30:00</span></div>
       <div id="quiz-container"></div>
-      <button type="submit">Submit Answers</button>
+      <div style="text-align:center;">
+        <button type="button" id="nextBtn">Next</button>
+        <button type="submit" id="submitBtn" class="hidden">Submit Quiz</button>
+      </div>
     </form>
 
     <div id="result" class="hidden"></div>
   </div>
 
   <script>
-    const questions = [
-      { img: "images/s1.png", correct: "d" },
+    let questions = [
+       { img: "images/s1.png", correct: "d" },
       { img: "images/s2.png", correct: "a" },
       { img: "images/s3.png", correct: "a" },
       { img: "images/s4.png", correct: "b" },
@@ -248,14 +250,21 @@
       { img: "images/s105.png", correct: "b" },
     ];
 
+    // Shuffle function
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
     let studentName = "";
     let studentRoll = "";
     let timerInterval;
-    let totalTime = 30 * 60; // 30 minutes
-
-    function shuffleArray(arr) {
-      return arr.sort(() => Math.random() - 0.5);
-    }
+    let totalTime = 30 * 60;
+    let currentQuestion = 0;
+    let answers = {};
 
     function startQuiz() {
       studentName = document.getElementById("name").value.trim();
@@ -266,46 +275,56 @@
         return;
       }
 
+      // Shuffle questions once at the start
+      questions = shuffleArray(questions);
+
       document.getElementById("student-info").classList.add("hidden");
       document.getElementById("quiz-form").classList.remove("hidden");
 
-      renderQuiz();
+      renderQuestion();
       startTimer();
     }
 
-    function renderQuiz() {
+    function renderQuestion() {
+      const q = questions[currentQuestion];
       const quizContainer = document.getElementById("quiz-container");
-      quizContainer.innerHTML = "";
 
-      const shuffledQuestions = shuffleArray([...questions]);
+      quizContainer.innerHTML = `
+        <div class="question-number">Question ${currentQuestion + 1} of ${questions.length}</div>
+        <img src="${q.img}" alt="Question ${currentQuestion + 1}" class="question-img" />
+        <div class="options">
+          <input type="radio" id="qa" name="q" value="a" ${answers[currentQuestion]==="a"?"checked":""}/>
+          <label for="qa">A</label>
 
-      shuffledQuestions.forEach((q, index) => {
-        const div = document.createElement("div");
-        div.className = "question";
-        div.style.marginBottom = "25px";
-        div.dataset.correct = q.correct;
-        div.dataset.img = q.img;
+          <input type="radio" id="qb" name="q" value="b" ${answers[currentQuestion]==="b"?"checked":""}/>
+          <label for="qb">B</label>
 
-        div.innerHTML = `
-          <img src="${q.img}" alt="Question ${index + 1}" class="question-img" />
-          <div class="options">
-            <input type="radio" id="q${index}a" name="q${index}" value="a" />
-            <label for="q${index}a">A</label>
+          <input type="radio" id="qc" name="q" value="c" ${answers[currentQuestion]==="c"?"checked":""}/>
+          <label for="qc">C</label>
 
-            <input type="radio" id="q${index}b" name="q${index}" value="b" />
-            <label for="q${index}b">B</label>
+          <input type="radio" id="qd" name="q" value="d" ${answers[currentQuestion]==="d"?"checked":""}/>
+          <label for="qd">D</label>
+        </div>
+      `;
 
-            <input type="radio" id="q${index}c" name="q${index}" value="c" />
-            <label for="q${index}c">C</label>
+      document.getElementById("nextBtn").classList.remove("hidden");
+      document.getElementById("submitBtn").classList.add("hidden");
 
-            <input type="radio" id="q${index}d" name="q${index}" value="d" />
-            <label for="q${index}d">D</label>
-          </div>
-        `;
-
-        quizContainer.appendChild(div);
-      });
+      if (currentQuestion === questions.length - 1) {
+        document.getElementById("nextBtn").classList.add("hidden");
+        document.getElementById("submitBtn").classList.remove("hidden");
+      }
     }
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      const selected = document.querySelector('input[name="q"]:checked');
+      if (selected) answers[currentQuestion] = selected.value;
+
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+      }
+    });
 
     function startTimer() {
       const timeDisplay = document.getElementById("time");
@@ -314,14 +333,13 @@
       timerInterval = setInterval(() => {
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
-        timeDisplay.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+        timeDisplay.textContent = `${minutes.toString().padStart(2,"0")}:${seconds.toString().padStart(2,"0")}`;
 
         if (timeLeft === 0) {
           clearInterval(timerInterval);
           alert("Time's up! Submitting your quiz...");
           document.getElementById("quiz-form").requestSubmit();
         }
-
         timeLeft--;
       }, 1000);
     }
@@ -330,44 +348,31 @@
       e.preventDefault();
       clearInterval(timerInterval);
 
-      const quizContainer = document.getElementById("quiz-container").children;
+      const selected = document.querySelector('input[name="q"]:checked');
+      if (selected) answers[currentQuestion] = selected.value;
 
       let score = 0;
       let attempted = 0;
       let tableData = [];
 
-      Array.from(quizContainer).forEach((div, index) => {
-        const correct = div.dataset.correct;
-        const selected = div.querySelector(`input[name="q${index}"]:checked`);
-        let userAns;
+      questions.forEach((q, index) => {
+        const correct = q.correct;
+        const userAns = answers[index] || "-";
+        if (userAns !== "-") attempted++;
+        if (userAns === correct) score++;
 
-        if (selected) {
-          attempted++;
-          userAns = selected.value.toLowerCase();
-          if (userAns === correct) score++;
-        } else {
-          userAns = "-";
-        }
-
-        let userAnsDisplay = userAns === "-" ? "-" : userAns.toUpperCase();
-        let correctAnsDisplay = correct.toUpperCase();
-        let status = (userAns === correct) ? "Correct" : "Wrong";
-
-        // Show image file name instead of image in PDF
-        let imgName = div.dataset.img ? div.dataset.img.split('/').pop() : "N/A";
-
+        let imgName = q.img.split("/").pop();
         tableData.push([
-          { content: (index + 1).toString(), styles: { halign: 'center' } },
+          { content: (index+1).toString(), styles:{halign:"center"} },
           imgName,
-          userAnsDisplay,
-          correctAnsDisplay,
-          status
+          userAns.toUpperCase(),
+          correct.toUpperCase(),
+          (userAns===correct)?"Correct":"Wrong"
         ]);
       });
 
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-
       doc.setFontSize(16);
       doc.text(`NPTEL Quiz Report`, 14, 20);
       doc.setFontSize(12);
@@ -403,5 +408,4 @@
     });
   </script>
 </body>
-    </html>
-
+</html>
