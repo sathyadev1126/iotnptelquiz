@@ -1,102 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>NPTEL Quiz</title>
   <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f3f7fb;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f7fb;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-  .container {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    max-width: 700px;
-    width: 95%;
-  }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      max-width: 700px;
+      width: 95%;
+    }
 
-  h1 { text-align: center; font-size: 1.5rem; }
+    h1 {
+      text-align: center;
+      font-size: 1.5rem;
+    }
 
-  .question-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 10px auto;
-  }
+    .question-img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 10px auto;
+    }
 
-  .options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin: 10px 0;
-  }
-
-  .options label {
-    background: #e3f2fd;
-    padding: 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: center;
-    transition: background 0.2s;
-    font-size: 1rem;
-    word-wrap: break-word;
-  }
-
-  .options input { display: none; }
-
-  .options input:checked + label {
-    background: #64b5f6;
-    color: white;
-  }
-
-  button {
-    display: block;
-    margin: 20px auto;
-    padding: 12px 24px;
-    background: #1565c0;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-
-  button:hover { background: #0d47a1; }
-
-  .hidden { display: none; }
-
-  #timer {
-    text-align: right;
-    font-weight: bold;
-    color: #d32f2f;
-    font-size: 1rem;
-  }
-
-  /* Responsive adjustments */
-  @media screen and (max-width: 480px) {
     .options {
-      grid-template-columns: 1fr; /* stack options vertically */
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 10px 0;
     }
 
     .options label {
-      font-size: 0.9rem;
-      padding: 10px;
+      background: #e3f2fd;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.2s;
+      font-size: 1rem;
+      word-wrap: break-word;
     }
 
-    h1 { font-size: 1.3rem; }
-    button { font-size: 0.95rem; padding: 10px 20px; }
-    #timer { font-size: 0.95rem; }
-  }
-</style>
+    .options input {
+      display: none;
+    }
+
+    .options input:checked + label {
+      background: #64b5f6;
+      color: white;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 24px;
+      background: #1565c0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background: #0d47a1;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #timer {
+      text-align: right;
+      font-weight: bold;
+      color: #d32f2f;
+      font-size: 1rem;
+    }
+
+    /* Responsive adjustments */
+    @media screen and (max-width: 480px) {
+      .options {
+        grid-template-columns: 1fr; /* stack options vertically */
+      }
+
+      .options label {
+        font-size: 0.9rem;
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 1.3rem;
+      }
+      button {
+        font-size: 0.95rem;
+        padding: 10px 20px;
+      }
+      #timer {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
@@ -107,13 +123,15 @@
 
     <div id="student-info">
       <p><b>Enter your details to start:</b></p>
-      <input type="text" id="name" placeholder="Your Name" required><br><br>
-      <input type="text" id="roll" placeholder="Your Roll Number" required><br><br>
+      <input type="text" id="name" placeholder="Your Name" required /><br /><br />
+      <input type="text" id="roll" placeholder="Your Roll Number" required /><br /><br />
       <button onclick="startQuiz()">Start Quiz</button>
     </div>
 
     <form id="quiz-form" class="hidden">
-      <div id="timer">Time Left: <span id="time">05:00</span></div>
+      <div id="timer">
+        Time Left: <span id="time">30:00</span>
+      </div>
       <div id="quiz-container"></div>
       <button type="submit">Submit Answers</button>
     </form>
@@ -121,250 +139,268 @@
     <div id="result" class="hidden"></div>
   </div>
 
-<script>
-const questions = [
-     { img: "images/s1.png", correct: "d" },
-  { img: "images/s2.png", correct: "a" },
-  { img: "images/s3.png", correct: "a" },
-  { img: "images/s4.png", correct: "b" },
-  { img: "images/s5.png", correct: "c" },
-  { img: "images/s6.png", correct: "b" },
-  { img: "images/s7.png", correct: "a" },
-  { img: "images/s8.png", correct: "b" },
-  { img: "images/s9.png", correct: "d" },
-  { img: "images/s10.png", correct: "a" },
-  { img: "images/s11.png", correct: "c" },
-  { img: "images/s12.png", correct: "a" },
-  { img: "images/s13.png", correct: "d" },
-  { img: "images/s14.png", correct: "b" },
-  { img: "images/s15.png", correct: "d" },
-  { img: "images/s16.png", correct: "d" },
-  { img: "images/s17.png", correct: "d" },
-  { img: "images/s18.png", correct: "d" },
-  { img: "images/s19.png", correct: "b" },
-  { img: "images/s20.png", correct: "d" },
-  { img: "images/s21.png", correct: "d" },
-  { img: "images/s22.png", correct: "d" },
-  { img: "images/s23.png", correct: "b" },
-  { img: "images/s24.png", correct: "b" },
-  { img: "images/s25.png", correct: "c" },
-  { img: "images/s26.png", correct: "b" },
-  { img: "images/s27.png", correct: "a" },
-  { img: "images/s28.png", correct: "a" },
-  { img: "images/s29.png", correct: "b" },
-  { img: "images/s30.png", correct: "b" },
-  { img: "images/s31.png", correct: "d" },
-  { img: "images/s32.png", correct: "a" },
-  { img: "images/s33.png", correct: "b" },
-  { img: "images/s34.png", correct: "c" },
-  { img: "images/s35.png", correct: "a" },
-  { img: "images/s36.png", correct: "c" },
-  { img: "images/s37.png", correct: "d" },
-  { img: "images/s38.png", correct: "b" },
-  { img: "images/s39.png", correct: "b" },
-  { img: "images/s40.png", correct: "b" },
-  { img: "images/s41.png", correct: "a" },
-  { img: "images/s42.png", correct: "c" },
-  { img: "images/s43.png", correct: "c" },
-  { img: "images/s44.png", correct: "a" },
-  { img: "images/s45.png", correct: "a" },
-  { img: "images/s46.png", correct: "d" },
-  { img: "images/s47.png", correct: "d" },
-  { img: "images/s48.png", correct: "b" },
-  { img: "images/s49.png", correct: "d" },
-  { img: "images/s50.png", correct: "b" },
-  { img: "images/s51.png", correct: "c" },
-  { img: "images/s52.png", correct: "a" },
-  { img: "images/s53.png", correct: "b" },
-  { img: "images/s54.png", correct: "d" },
-  { img: "images/s55.png", correct: "b" },
-  { img: "images/s56.png", correct: "b" },
-  { img: "images/s57.png", correct: "c" },
-  { img: "images/s58.png", correct: "a" },
-  { img: "images/s59.png", correct: "a" },
-  { img: "images/s60.png", correct: "b" },
-  { img: "images/s61.png", correct: "a" },
-  { img: "images/s62.png", correct: "c" },
-  { img: "images/s63.png", correct: "b" },
-  { img: "images/s64.png", correct: "a" },
-  { img: "images/s65.png", correct: "b" },
-  { img: "images/s66.png", correct: "d" },
-  { img: "images/s67.png", correct: "d" },
-  { img: "images/s68.png", correct: "c" },
-  { img: "images/s69.png", correct: "a" },
-  { img: "images/s70.png", correct: "a" },
-  { img: "images/s71.png", correct: "b" },
-  { img: "images/s72.png", correct: "b" },
-  { img: "images/s73.png", correct: "a" },
-  { img: "images/s74.png", correct: "b" },
-  { img: "images/s75.png", correct: "c" },
-  { img: "images/s76.png", correct: "a" },
-  { img: "images/s77.png", correct: "a" },
-  { img: "images/s78.png", correct: "b" },
-  { img: "images/s79.png", correct: "c" },
-  { img: "images/s80.png", correct: "d" },
-  { img: "images/s81.png", correct: "b" },
-  { img: "images/s82.png", correct: "a" },
-  { img: "images/s83.png", correct: "b" },
-  { img: "images/s84.png", correct: "c" },
-  { img: "images/s85.png", correct: "b" },
-  { img: "images/s86.png", correct: "a" },
-  { img: "images/s87.png", correct: "a" },
-  { img: "images/s88.png", correct: "c" },
-  { img: "images/s89.png", correct: "b" },
-  { img: "images/s90.png", correct: "b" },
-  { img: "images/s91.png", correct: "c" },
-  { img: "images/s92.png", correct: "a" },
-  { img: "images/s93.png", correct: "d" },
-  { img: "images/s94.png", correct: "b" },
-  { img: "images/s95.png", correct: "d" },
-  { img: "images/s96.png", correct: "d" },
-  { img: "images/s97.png", correct: "d" },
-  { img: "images/s98.png", correct: "d" },
-  { img: "images/s99.png", correct: "b" },
-  { img: "images/s100.png", correct: "d" },
-  { img: "images/s101.png", correct: "d" },
-  { img: "images/s102.png", correct: "d" },
-  { img: "images/s103.png", correct: "b" },
-  { img: "images/s104.png", correct: "b" },
-  { img: "images/s105.png", correct: "c" }
+  <script>
+    const questions = [
+      { img: "images/s1.png", correct: "d" },
+      { img: "images/s2.png", correct: "a" },
+      { img: "images/s3.png", correct: "a" },
+      { img: "images/s4.png", correct: "b" },
+      { img: "images/s5.png", correct: "c" },
+      { img: "images/s6.png", correct: "b" },
+      { img: "images/s7.png", correct: "a" },
+      { img: "images/s8.png", correct: "b" },
+      { img: "images/s9.png", correct: "d" },
+      { img: "images/s10.png", correct: "a" },
+      { img: "images/s11.png", correct: "c" },
+      { img: "images/s12.png", correct: "a" },
+      { img: "images/s13.png", correct: "d" },
+      { img: "images/s14.png", correct: "b" },
+      { img: "images/s15.png", correct: "d" },
+      { img: "images/s16.png", correct: "d" },
+      { img: "images/s17.png", correct: "d" },
+      { img: "images/s18.png", correct: "d" },
+      { img: "images/s19.png", correct: "b" },
+      { img: "images/s20.png", correct: "d" },
+      { img: "images/s21.png", correct: "d" },
+      { img: "images/s22.png", correct: "d" },
+      { img: "images/s23.png", correct: "b" },
+      { img: "images/s24.png", correct: "b" },
+      { img: "images/s25.png", correct: "c" },
+      { img: "images/s26.png", correct: "b" },
+      { img: "images/s27.png", correct: "a" },
+      { img: "images/s28.png", correct: "a" },
+      { img: "images/s29.png", correct: "b" },
+      { img: "images/s30.png", correct: "b" },
+      { img: "images/s31.png", correct: "d" },
+      { img: "images/s32.png", correct: "a" },
+      { img: "images/s33.png", correct: "b" },
+      { img: "images/s34.png", correct: "c" },
+      { img: "images/s35.png", correct: "a" },
+      { img: "images/s36.png", correct: "c" },
+      { img: "images/s37.png", correct: "d" },
+      { img: "images/s38.png", correct: "b" },
+      { img: "images/s39.png", correct: "b" },
+      { img: "images/s40.png", correct: "b" },
+      { img: "images/s41.png", correct: "a" },
+      { img: "images/s42.png", correct: "c" },
+      { img: "images/s43.png", correct: "c" },
+      { img: "images/s44.png", correct: "a" },
+      { img: "images/s45.png", correct: "a" },
+      { img: "images/s46.png", correct: "d" },
+      { img: "images/s47.png", correct: "d" },
+      { img: "images/s48.png", correct: "b" },
+      { img: "images/s49.png", correct: "d" },
+      { img: "images/s50.png", correct: "b" },
+      { img: "images/s51.png", correct: "c" },
+      { img: "images/s52.png", correct: "a" },
+      { img: "images/s53.png", correct: "b" },
+      { img: "images/s54.png", correct: "d" },
+      { img: "images/s55.png", correct: "b" },
+      { img: "images/s56.png", correct: "b" },
+      { img: "images/s57.png", correct: "c" },
+      { img: "images/s58.png", correct: "a" },
+      { img: "images/s59.png", correct: "a" },
+      { img: "images/s60.png", correct: "b" },
+      { img: "images/s61.png", correct: "a" },
+      { img: "images/s62.png", correct: "c" },
+      { img: "images/s63.png", correct: "b" },
+      { img: "images/s64.png", correct: "a" },
+      { img: "images/s65.png", correct: "b" },
+      { img: "images/s66.png", correct: "d" },
+      { img: "images/s67.png", correct: "d" },
+      { img: "images/s68.png", correct: "c" },
+      { img: "images/s69.png", correct: "a" },
+      { img: "images/s70.png", correct: "a" },
+      { img: "images/s71.png", correct: "b" },
+      { img: "images/s72.png", correct: "b" },
+      { img: "images/s73.png", correct: "a" },
+      { img: "images/s74.png", correct: "b" },
+      { img: "images/s75.png", correct: "c" },
+      { img: "images/s76.png", correct: "a" },
+      { img: "images/s77.png", correct: "a" },
+      { img: "images/s78.png", correct: "b" },
+      { img: "images/s79.png", correct: "c" },
+      { img: "images/s80.png", correct: "d" },
+      { img: "images/s81.png", correct: "b" },
+      { img: "images/s82.png", correct: "a" },
+      { img: "images/s83.png", correct: "b" },
+      { img: "images/s84.png", correct: "c" },
+      { img: "images/s85.png", correct: "b" },
+      { img: "images/s86.png", correct: "a" },
+      { img: "images/s87.png", correct: "a" },
+      { img: "images/s88.png", correct: "c" },
+      { img: "images/s89.png", correct: "b" },
+      { img: "images/s90.png", correct: "b" },
+      { img: "images/s91.png", correct: "c" },
+      { img: "images/s92.png", correct: "a" },
+      { img: "images/s93.png", correct: "d" },
+      { img: "images/s94.png", correct: "b" },
+      { img: "images/s95.png", correct: "d" },
+      { img: "images/s96.png", correct: "d" },
+      { img: "images/s97.png", correct: "d" },
+      { img: "images/s98.png", correct: "d" },
+      { img: "images/s99.png", correct: "b" },
+      { img: "images/s100.png", correct: "d" },
+      { img: "images/s101.png", correct: "d" },
+      { img: "images/s102.png", correct: "d" },
+      { img: "images/s103.png", correct: "b" },
+      { img: "images/s104.png", correct: "b" },
+      { img: "images/s105.png", correct: "c" },
+    ];
 
-];
+    let studentName = "";
+    let studentRoll = "";
+    let timerInterval;
+    let totalTime = 30 * 60; // 30 minutes
 
-let studentName = "";
-let studentRoll = "";
-let timerInterval;
-let totalTime = 30 * 60; // 5 minutes
+    function shuffleArray(arr) {
+      return arr.sort(() => Math.random() - 0.5);
+    }
 
-function shuffleArray(arr) {
-  return arr.sort(() => Math.random() - 0.5);
-}
+    function startQuiz() {
+      studentName = document.getElementById("name").value.trim();
+      studentRoll = document.getElementById("roll").value.trim();
 
-function startQuiz() {
-  studentName = document.getElementById("name").value.trim();
-  studentRoll = document.getElementById("roll").value.trim();
+      if (!studentName || !studentRoll) {
+        alert("Please enter your name and roll number.");
+        return;
+      }
 
-  if (!studentName || !studentRoll) {
-    alert("Please enter your name and roll number.");
-    return;
-  }
+      document.getElementById("student-info").classList.add("hidden");
+      document.getElementById("quiz-form").classList.remove("hidden");
 
-  document.getElementById("student-info").classList.add("hidden");
-  document.getElementById("quiz-form").classList.remove("hidden");
+      renderQuiz();
+      startTimer();
+    }
 
-  renderQuiz();
-  startTimer();
-}
+    function renderQuiz() {
+      const quizContainer = document.getElementById("quiz-container");
+      quizContainer.innerHTML = "";
 
-function renderQuiz() {
-  const quizContainer = document.getElementById("quiz-container");
-  quizContainer.innerHTML = "";
+      const shuffledQuestions = shuffleArray([...questions]);
 
-  const shuffledQuestions = shuffleArray([...questions]);
+      shuffledQuestions.forEach((q, index) => {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.style.marginBottom = "25px";
+        div.dataset.correct = q.correct;
+        div.dataset.img = q.img;
 
-  shuffledQuestions.forEach((q, index) => {
-    const div = document.createElement("div");
-    div.innerHTML = `
-      <p><b>Question ${index+1}</b></p>
-      <img src="${q.img}" alt="Question ${index+1}" class="question-img">
-      <div class="options">
-        <input type="radio" name="q${index}" id="q${index}a" value="a">
-        <label for="q${index}a">A</label>
-        <input type="radio" name="q${index}" id="q${index}b" value="b">
-        <label for="q${index}b">B</label>
-        <input type="radio" name="q${index}" id="q${index}c" value="c">
-        <label for="q${index}c">C</label>
-        <input type="radio" name="q${index}" id="q${index}d" value="d">
-        <label for="q${index}d">D</label>
-      </div>
-    `;
-    div.dataset.correct = q.correct;
-    quizContainer.appendChild(div);
-  });
-}
+        div.innerHTML = `
+          <img src="${q.img}" alt="Question ${index + 1}" class="question-img" />
+          <div class="options">
+            <input type="radio" id="q${index}a" name="q${index}" value="a" />
+            <label for="q${index}a">A</label>
 
-function startTimer() {
-  timerInterval = setInterval(() => {
-    let minutes = Math.floor(totalTime / 60);
-    let seconds = totalTime % 60;
-    document.getElementById("time").textContent =
-      `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+            <input type="radio" id="q${index}b" name="q${index}" value="b" />
+            <label for="q${index}b">B</label>
 
-    if (totalTime <= 0) {
+            <input type="radio" id="q${index}c" name="q${index}" value="c" />
+            <label for="q${index}c">C</label>
+
+            <input type="radio" id="q${index}d" name="q${index}" value="d" />
+            <label for="q${index}d">D</label>
+          </div>
+        `;
+
+        quizContainer.appendChild(div);
+      });
+    }
+
+    function startTimer() {
+      const timeDisplay = document.getElementById("time");
+      let timeLeft = totalTime;
+
+      timerInterval = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timeDisplay.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+        if (timeLeft === 0) {
+          clearInterval(timerInterval);
+          alert("Time's up! Submitting your quiz...");
+          document.getElementById("quiz-form").requestSubmit();
+        }
+
+        timeLeft--;
+      }, 1000);
+    }
+
+    document.getElementById("quiz-form").addEventListener("submit", (e) => {
+      e.preventDefault();
       clearInterval(timerInterval);
-      document.getElementById("quiz-form").requestSubmit();
-    }
-    totalTime--;
-  }, 1000);
-}
 
-document.getElementById("quiz-form").addEventListener("submit", (e) => {
-  e.preventDefault();
-  clearInterval(timerInterval);
+      const quizContainer = document.getElementById("quiz-container").children;
 
-  let score = 0;
-  let attempted = 0;
-  let tableData = [];
-  const quizContainer = document.getElementById("quiz-container").children;
+      let score = 0;
+      let attempted = 0;
+      let tableData = [];
 
-  Array.from(quizContainer).forEach((div, index) => {
-    const correct = div.dataset.correct;
-    const selected = div.querySelector(`input[name="q${index}"]:checked`);
-    let ans;
+      Array.from(quizContainer).forEach((div, index) => {
+        const correct = div.dataset.correct;
+        const selected = div.querySelector(`input[name="q${index}"]:checked`);
+        let userAns;
 
-    if (selected) {
-      attempted++;
-      ans = selected.value.toUpperCase();
-      if (ans.toLowerCase() === correct) score++;
-    } else {
-      ans = "-";
-    }
+        if (selected) {
+          attempted++;
+          userAns = selected.value.toLowerCase();
+          if (userAns === correct) score++;
+        } else {
+          userAns = "-";
+        }
 
-    tableData.push([index+1, ans]);
-  });
+        let userAnsDisplay = userAns === "-" ? "-" : userAns.toUpperCase();
+        let correctAnsDisplay = correct.toUpperCase();
+        let status = (userAns === correct) ? "Correct" : "Wrong";
 
-  // Determine Pass/Fail
-  let resultStatus = score >= 30 ? "PASS" : "FAIL";
+        // Show image file name instead of image in PDF
+        let imgName = div.dataset.img ? div.dataset.img.split('/').pop() : "N/A";
 
-  // Generate PDF
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+        tableData.push([
+          { content: (index + 1).toString(), styles: { halign: 'center' } },
+          imgName,
+          userAnsDisplay,
+          correctAnsDisplay,
+          status
+        ]);
+      });
 
-  doc.setFontSize(18);
-  doc.text("NPTEL Quiz Result", 105, 15, { align: "center" });
-  doc.setFontSize(11);
-  doc.text("Generated on: " + new Date().toLocaleString(), 105, 22, { align: "center" });
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
 
-  doc.setFontSize(12);
-  doc.text(`Name: ${studentName}`, 14, 35);
-  doc.text(`Roll Number: ${studentRoll}`, 14, 42);
-  doc.text(`Total Questions: ${questions.length}`, 14, 55);
-  doc.text(`Attempted: ${attempted}`, 14, 62);
-  doc.text(`Score: ${score} / ${questions.length}`, 14, 69);
-  doc.text(`Result: ${resultStatus}`, 14, 76);
+      doc.setFontSize(16);
+      doc.text(`NPTEL Quiz Report`, 14, 20);
+      doc.setFontSize(12);
+      doc.text(`Name: ${studentName}`, 14, 30);
+      doc.text(`Roll Number: ${studentRoll}`, 14, 36);
+      doc.text(`Score: ${score} / ${questions.length}`, 14, 42);
+      doc.text(`Attempted: ${attempted} / ${questions.length}`, 14, 48);
 
-  // Table of answers
-  doc.autoTable({
-    startY: 90,
-    head: [["Q.No", "Your Answer"]],
-    body: tableData,
-    theme: "grid",
-    headStyles: { fillColor: [21, 101, 192] },
-    styles: { halign: "center" },
-    columnStyles: { 0: { halign: "center", cellWidth: 20 } }
-  });
+      doc.autoTable({
+        startY: 55,
+        head: [['Q No.', 'Image File', 'Your Answer', 'Correct Answer', 'Status']],
+        body: tableData,
+        styles: { fontSize: 9 },
+        headStyles: { fillColor: [21, 101, 192], halign: 'center' },
+        columnStyles: {
+          0: { cellWidth: 12 },
+          1: { cellWidth: 40 },
+          2: { cellWidth: 25, halign: 'center' },
+          3: { cellWidth: 30, halign: 'center' },
+          4: { cellWidth: 25, halign: 'center' }
+        }
+      });
 
-  doc.save(`${studentRoll}_quiz_result.pdf`);
+      doc.save(`NPTEL_Quiz_Report_${studentRoll}.pdf`);
 
-  document.getElementById("quiz-form").classList.add("hidden");
-  document.getElementById("result").classList.remove("hidden");
-  document.getElementById("result").innerHTML = `
-    <p><b>Quiz Completed!</b></p>
-    <p>Your Score: ${score}/${questions.length}</p>
-    <p>PDF file downloaded ✅</p>
-  `;
-});
-</script>
+      document.getElementById("result").innerHTML = `
+        <h3>Your score: ${score} / ${questions.length}</h3>
+        <p>You attempted ${attempted} questions.</p>
+        <p>PDF report downloaded.</p>
+      `;
+      document.getElementById("result").classList.remove("hidden");
+      document.getElementById("quiz-form").classList.add("hidden");
+    });
+  </script>
 </body>
-</html>
-
+    </html>
